@@ -1,0 +1,4 @@
+# Install a openstack-ansible-security role from GitHub
+- name: openstack-ansible-security
+  src: https://github.com/openstack/openstack-ansible-security 
+  version: stable/newton

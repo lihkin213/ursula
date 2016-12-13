@@ -1,0 +1,7 @@
+---
+os_gpg_key:
+  # All key_urls should be HTTPS to ensure we are retrieving the key we are expecting too
+  centos:
+    key_url: 'https://www.centos.org/keys/RPM-GPG-KEY-CentOS-7'
+  redhat:
+    key_url: 'https://www.redhat.com/security/fd431d51.txt'

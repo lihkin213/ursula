@@ -1,0 +1,22 @@
+---
+- name: import centos gpg keys
+  rpm_key:
+    state: present
+    key: "{{ os_gpg_key.centos.key_url }}"
+  when: ansible_distribution in ['CentOS']
+
+- name: import redhat gpg keys
+  rpm_key:
+    state: present
+    key: "{{ os_gpg_key.redhat.key_url }}"
+  when: ansible_distribution in ['RedHat']
+
+- name: check the password hashing alogrithm
+  shell: authconfig --test | grep sha512
+  register: result
+  ignore_errors: true
+  when: ansible_distribution in ['CentOS', 'RedHat']
+
+- name: set the password hashing algorithm to sha512
+  command: authconfig --passalgo=sha512 --update
+  when: (result|failed and ansible_distribution in ['CentOS', 'RedHat'])

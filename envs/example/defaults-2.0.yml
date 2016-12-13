@@ -490,6 +490,7 @@ keystone:
     enabled: False
 
 ssl:
+  cafile: "{{ (os == 'rhel' ) | ternary('/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt', '/etc/ssl/certs/ca-certificates.crt') }}"
   crt: |
     -----BEGIN CERTIFICATE-----
     MIIDGTCCAgGgAwIBAgIJAMtkDaIzlHvtMA0GCSqGSIb3DQEBCwUAMBIxEDAOBgNV
@@ -616,6 +617,16 @@ haproxy:
 
 logging:
   enabled: False
+  follow:
+    enabled: true
+    global_fields:
+      customer_id: "unknown"
+      cluster_name: "unknown"
+    logs:
+      - paths:
+          - /var/log/syslog
+        fields:
+          type: syslog
 
 keystonev3:
   enabled: True
@@ -629,3 +640,11 @@ magnum:
 
 serverspec:
   enabled: False
+
+# openstack-ansible-security defaults
+security_enable_chrony: no
+security_ssh_client_alive_interval: 1800
+#security_umask_csh: '077'
+#security_umask_bash: '077'
+security_umask_login_defs: '022'
+security_ssh_permit_root_login: 'yes' #should this be no?
