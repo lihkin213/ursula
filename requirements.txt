@@ -3,6 +3,7 @@ pep8
 oslo.utils
 shade>=1.7.0
 ansible>=2.1.0.0,<3,<2.2
+gilt-python
 python-novaclient
 python-glanceclient
 python-cinderclient

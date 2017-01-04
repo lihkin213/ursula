@@ -1,0 +1,3 @@
+- git: https://github.com/openstack/openstack-ansible-security.git
+  version: stable/newton
+  dst: roles/openstack-ansible-security/
