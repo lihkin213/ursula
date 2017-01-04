@@ -20,14 +20,9 @@
       tags: ['always', 'precheck']
   environment: "{{ env_vars|default({}) }}"
 
-- name: os-hardening for all hosts
-  hosts: all:!vyatta-*
-  any_errors_fatal: true
-  roles:
-    - role: os-gpg-keys
-      tags: ['security-hardening','gpg-keys']
-    - role: openstack-ansible-security
-      tags: ['security-hardening']
+- include: playbooks/run-openstack-ansible-security.yml
+  when: hardening.enabled|default('False')|bool
+  tags: ['hardening']
 
 - name: common role for all hosts
   hosts: all:!vyatta-*

@@ -641,10 +641,13 @@ magnum:
 serverspec:
   enabled: False
 
+hardening:
+  enabled: False
+
 # openstack-ansible-security defaults
 security_enable_chrony: no
 security_ssh_client_alive_interval: 1800
 #security_umask_csh: '077'
 #security_umask_bash: '077'
 security_umask_login_defs: '022'
-security_ssh_permit_root_login: 'yes' #should this be no?
+security_ssh_permit_root_login: 'yes'
