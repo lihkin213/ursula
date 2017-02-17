@@ -21,7 +21,7 @@
 
 - name: inspec sensu hook
   sensu_check: name=inspec-check plugin=check-inspec.rb
-               args='--controls /etc/inspec/controls' use_sudo=true
+               args='--controls /etc/inspec/host-controls --attrs /etc/inspec/host-controls/attributes.yml' use_sudo=true
                interval={{ inspec.interval }}
   notify: restart sensu-client
   when: inspec.enabled|default(True)|bool
