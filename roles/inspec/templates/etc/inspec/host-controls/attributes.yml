@@ -1,3 +1,8 @@
 {% for name,value in inspec.openstack.horizon.attributes.iteritems() %}
 {{ name }}: {{ value }}
 {% endfor %}
+{% if ursula_os == 'rhel' %}
+{% for name,value in inspec.rhel7.attributes.iteritems() %}
+{{ name }}: {{ value }}
+{% endfor %}
+{% endif %}

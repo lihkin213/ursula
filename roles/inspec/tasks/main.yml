@@ -29,30 +29,31 @@
     state: directory
   when: inspec.dependency_install_method == 'tar'
 
-- name: fetch inspec dependencies when install method is tar
-  get_url:
-    url: '{{ item.url }}'
-    dest: '{{ inspec.dependency_path }}/archive/{{ item.name }}-{{ item.version }}'
-    mode: 0644
-  with_items: '{{ inspec.profile_dependencies }}'
-  when: inspec.dependency_install_method == 'tar'
-
-- name: untar inspec dependencies
-  unarchive:
-    src: '{{ inspec.dependency_path }}/archive/{{ item.name }}-{{ item.version }}'
-    dest: '{{ inspec.dependency_path }}'
-    copy: no
-  with_items: '{{inspec.profile_dependencies }}'
-  when: inspec.dependency_install_method == 'tar'
-
-- name: create inspec dependency current symlink
-  file:
-    src: '{{ inspec.dependency_path }}/{{ item.name }}-{{ item.version }}'
-    dest: '{{ inspec.dependency_path }}/current/{{ item.name }}'
-    state: link
-    force: true
-  with_items: '{{inspec.profile_dependencies }}'
-  when: inspec.dependency_install_method == 'tar'
+- block:
+  - name: fetch inspec dependencies when install method is tar
+    get_url:
+      url: '{{ item.url }}'
+      dest: '{{ inspec.dependency_path }}/archive/{{ item.name }}-{{ item.version }}'
+      mode: 0644
+    with_items: '{{inspec.profile_dependencies }}'
+  
+  - name: untar inspec dependencies
+    unarchive:
+      src: '{{ inspec.dependency_path }}/archive/{{ item.name }}-{{ item.version }}'
+      dest: '{{ inspec.dependency_path }}'
+      copy: no
+    with_items: '{{inspec.profile_dependencies }}'
+  
+  - name: create inspec dependency current symlink
+    file:
+      src: '{{ inspec.dependency_path }}/{{ item.name }}-{{ item.version }}'
+      dest: '{{ inspec.dependency_path }}/current/{{ item.name }}'
+      state: link
+      force: true
+    with_items: '{{inspec.profile_dependencies }}'
+  when:
+    - inspec.dependency_install_method == 'tar'
+    - item.enabled|default('True')|bool
 
 - name: inspec profile yml
   template:

@@ -12,6 +12,7 @@ inspec:
     - name: inspec-stig-rhel7
       version: master
       url: https://github.com/inspec-stigs/inspec-stig-rhel7/archive/master.tar.gz
+      enabled: "{{ ursula_os == 'rhel' }}"
   openstack:
     horizon:
       required_controls:
