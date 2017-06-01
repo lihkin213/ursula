@@ -2,5 +2,15 @@
 - name: os-hardening for all hosts
   hosts: all:!vyatta-*
   any_errors_fatal: true
+
   roles:
     - role: ../../openstack-ansible-security
+
+  tasks:
+    - name: install ntp on ubuntu
+      package:
+        name: ntp
+        state: latest
+      register: result
+      until: result|succeeded
+      retries: 5
